@@ -1,9 +1,12 @@
 import './App.css';
+import Chat from './components/Chat/Chat';
+import ChatRoom from './components/ChatRoom/ChatRoom';
 
 function App() {
   return (
     <div className='app'>
-      <h1>Hello World!</h1>
+      <ChatRoom />
+      <Chat />
     </div>
   );
 }

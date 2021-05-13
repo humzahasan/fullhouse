@@ -1,0 +1,16 @@
+.chatroom-hide{
+    width: 0;
+    display: none;
+}
+
+.chatroom-show {
+    width: 100vw;
+}
+
+form > button {
+   display: none;
+}
+
+.chatroom_chatlist {
+    padding: 1rem;
+}
