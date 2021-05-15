@@ -10,8 +10,7 @@ const ChatRooms = () => {
   const [showingChat, setshowingChat] = useState(true);
   const [chatRoom, setChatRoom] = useState([]);
   const [roomInput, setRoomInput] = useState('');
-  const [chatRoom, setChatRoom] = useState([]);
-  
+  const [existingRoom, setExistingRoom] = useState([]);
 
   const showChat = () => {
     setshowingChat(!showingChat);
@@ -19,22 +18,30 @@ const ChatRooms = () => {
 
   const addRoom = (e) => {
     e.preventDefault();
-    const roomExist = chatRoom.includes(roomInput);
-    console.log(roomExist);
-    roomRef.add({name: roomInput, createdAt: timestamp(), createdBy: 'user'});
+    const roomExist = existingRoom.includes(roomInput);
+    if(!roomExist) {
+      roomRef.add({name: roomInput, createdAt: timestamp(), createdBy: 'user'});
+    } else {
+      alert('Room Already Exist');
+    }
     setRoomInput('');
   };
 
   useEffect(() => {
     roomRef.orderBy('createdAt', 'desc').onSnapshot((snap) => {
       let documents = [];
+      let roomName = [];
       snap.forEach((doc) => {
         documents.push({...doc.data(), id: doc.id});
+        roomName.push(doc.data().name);
       });
       setChatRoom(documents);
+      console.log(roomName);
+      setExistingRoom(roomName);
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log(chatRoom);
+  
 
   return (
     <div className='chatroom'>
