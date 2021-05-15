@@ -1,11 +1,11 @@
 import './App.css';
 import Chat from './components/Chat/Chat';
-import ChatRoom from './components/ChatRoom/ChatRoom';
+import ChatRooms from './components/ChatRoom/ChatRooms';
 
 function App() {
   return (
     <div className='app'>
-      <ChatRoom />
+      <ChatRooms />
       <Chat />
     </div>
   );

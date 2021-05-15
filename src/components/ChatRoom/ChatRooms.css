@@ -12,5 +12,6 @@ form > button {
 }
 
 .chatroom_chatlist {
-    padding: 1rem;
+    width: 80vw;
+    padding: 1.2rem;
 }
