@@ -5,11 +5,12 @@ import {BiMessageRoundedAdd} from 'react-icons/bi';
 import './ChatRooms.css';
 import {projectFirestore, timestamp} from '../../config/firebase';
 const ChatRooms = () => {
+  
   const roomRef = projectFirestore.collection('chatrooms');
 
   const [showingChat, setshowingChat] = useState(true);
-  const [chatRoom, setChatRoom] = useState([]);
-  const [roomInput, setRoomInput] = useState('');
+  const [chatRoom, setChatRoom] = useState([]); 
+  const [roomInput, setRoomInput] = useState(''); 
   const [existingRoom, setExistingRoom] = useState([]);
 
   const showChat = () => {
@@ -19,7 +20,7 @@ const ChatRooms = () => {
   const addRoom = (e) => {
     e.preventDefault();
     const roomExist = existingRoom.includes(roomInput);
-    if(!roomExist) {
+    if (!roomExist) {
       roomRef.add({name: roomInput, createdAt: timestamp(), createdBy: 'user'});
     } else {
       alert('Room Already Exist');
@@ -36,12 +37,10 @@ const ChatRooms = () => {
         roomName.push(doc.data().name);
       });
       setChatRoom(documents);
-      console.log(roomName);
       setExistingRoom(roomName);
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  
 
   return (
     <div className='chatroom'>
@@ -62,8 +61,9 @@ const ChatRooms = () => {
         </form>
         <div className='chatroom_chatlist'>
           {chatRoom?.map((room) => (
-            <div>
-              <p>#{room.name}</p>
+
+            <div className='chatlist__div' key={room.id}>
+              <p className='chatlist__name'>#{room.name}</p>
             </div>
           ))}
         </div>
