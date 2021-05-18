@@ -4,7 +4,7 @@
 }
 
 .chatroom-show {
-    width: 100vw;
+    width: 30vw;
 }
 
 form > button {
@@ -12,6 +12,18 @@ form > button {
 }
 
 .chatroom_chatlist {
-    width: 80vw;
+    width: 30vw;
     padding: 1.2rem;
+}
+
+@media (max-width:421px) {
+    .chatroom-show {
+        width: 100vw;
+    }
+
+    .chatroom_chatlist {
+        width: 80vw;
+        padding: 1.2rem;
+    }
+           
 }

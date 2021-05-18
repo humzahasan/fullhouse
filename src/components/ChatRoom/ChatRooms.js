@@ -4,13 +4,13 @@ import {RiMenuUnfoldFill} from 'react-icons/ri';
 import {BiMessageRoundedAdd} from 'react-icons/bi';
 import './ChatRooms.css';
 import {projectFirestore, timestamp} from '../../config/firebase';
+import {Link} from 'react-router-dom';
 const ChatRooms = () => {
-  
   const roomRef = projectFirestore.collection('chatrooms');
 
-  const [showingChat, setshowingChat] = useState(true);
-  const [chatRoom, setChatRoom] = useState([]); 
-  const [roomInput, setRoomInput] = useState(''); 
+  const [showingChat, setshowingChat] = useState(false);
+  const [chatRoom, setChatRoom] = useState([]);
+  const [roomInput, setRoomInput] = useState('');
   const [existingRoom, setExistingRoom] = useState([]);
 
   const showChat = () => {
@@ -61,10 +61,11 @@ const ChatRooms = () => {
         </form>
         <div className='chatroom_chatlist'>
           {chatRoom?.map((room) => (
-
-            <div className='chatlist__div' key={room.id}>
-              <p className='chatlist__name'>#{room.name}</p>
-            </div>
+            <Link to={`/room/${room.id}`} key={room.id} onClick={showChat}>
+              <div className='chatlist__div' key={room.id}>
+                <p className='chatlist__name'>#{room.name}</p>
+              </div>
+            </Link>
           ))}
         </div>
       </div>
