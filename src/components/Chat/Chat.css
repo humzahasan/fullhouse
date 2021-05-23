@@ -1,0 +1,13 @@
+.chat {
+    width: 100vw;
+    display: flex;
+    background-color: teal;
+    padding: 1rem;
+}
+
+/* .chat__header {
+    overflow: hidden;
+    background-color: gray;
+    width: 100%;
+    margin: 2rem;
+} */

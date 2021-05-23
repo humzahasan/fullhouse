@@ -1,5 +1,7 @@
-* {
+body {
     font-family: Roboto;
+    background-color: #36393F;
+    color: white;
 }
 
 .app {

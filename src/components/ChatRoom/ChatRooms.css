@@ -4,17 +4,39 @@
 }
 
 .chatroom-show {
-    width: 30vw;
+    width: 20vw;
+    padding: 0.5rem;
+}
+
+#standard-basic-label, #standard-basic {
+    color: white;
+    margin-top: 1rem;
 }
 
 form > button {
    display: none;
 }
 
-.chatroom_chatlist {
-    width: 30vw;
-    padding: 1.2rem;
+a {
+    text-decoration: none;
 }
+
+.chatroom_chatlist{
+    width: 20vw;
+    padding: 1rem;    
+}
+
+.chatroom_chatlist :hover {
+    background-color: yellow;
+}
+
+.chatlist__div {
+    color: white;
+    font-size: medium;
+    width: 100%;
+    height: 2rem;
+}
+
 
 @media (max-width:421px) {
     .chatroom-show {
@@ -24,6 +46,7 @@ form > button {
     .chatroom_chatlist {
         width: 80vw;
         padding: 1.2rem;
+        background-color: #2F3136 !important;
     }
            
 }
