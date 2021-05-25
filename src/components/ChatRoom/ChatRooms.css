@@ -1,3 +1,10 @@
+.chatroom {
+    overflow-y: auto;
+    overflow-x: auto;   
+    height: 100vh;
+    background-color: palevioletred;
+}
+
 .chatroom-hide{
     width: 0;
     display: none;
@@ -23,11 +30,13 @@ a {
 
 .chatroom_chatlist{
     width: 20vw;
-    padding: 1rem;    
+    padding: 1rem; 
+    overflow-y: auto;
+    overflow-y: auto;   
 }
 
 .chatroom_chatlist :hover {
-    background-color: yellow;
+    background-color: lightgray;
 }
 
 .chatlist__div {
@@ -39,12 +48,16 @@ a {
 
 
 @media (max-width:421px) {
+    .chatroom {
+        background-color: tomato;
+        width: 100vw;
+    }
     .chatroom-show {
         width: 100vw;
     }
 
     .chatroom_chatlist {
-        width: 80vw;
+        width: 100vw;
         padding: 1.2rem;
         background-color: #2F3136 !important;
     }

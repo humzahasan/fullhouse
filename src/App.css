@@ -2,9 +2,12 @@ body {
     font-family: Roboto;
     background-color: #36393F;
     color: white;
+    margin: 0;
+    padding: 0;
 }
 
 .app {
+   
     display: flex;
     flex-direction: row;
 } 
