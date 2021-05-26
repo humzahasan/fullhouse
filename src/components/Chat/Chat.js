@@ -1,47 +1,64 @@
 import {Avatar, TextField} from '@material-ui/core';
 import './Chat.css';
-import React, {useState} from 'react';
-import {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useParams} from 'react-router-dom';
 import {projectFirestore, timestamp} from '../../config/firebase';
 
 const Chat = () => {
   const roomRef = projectFirestore.collection('chatrooms');
-  const [roomData, setRoomData] = useState(null);
   const {roomId} = useParams();
+  const [roomData, setRoomData] = useState(null);
   const [messageInput, setMessageInput] = useState('');
   const [roomMessages, setRoomMessages] = useState([]);
 
   const sendMessage = (e) => {
     e.preventDefault();
-    console.log('Yo BABY', messageInput);
     projectFirestore.collection(roomData.name).add({
-      roomData: roomData,
       username: 'USER',
       message: messageInput,
       sentAt: timestamp(),
     });
     setMessageInput('');
   };
-  useEffect(() => {
-    async function loadRoomData() {
-      let note = await roomRef.doc(roomId).get();
-      note = note.data();
-      setRoomData(note);
-      
-      loadRoomMessages()
-    }
 
-    async function loadRoomMessages() {
-      
+  useEffect(() => {
+    const fetchData = async () => {
+      let note = await roomRef.doc(roomId).get();
+      console.log(note);
+      note = note.data();
+      if (note) {
+        console.log('INSIDE');
+      }
+      setRoomData(note);
+    };
+    console.log('First');
+    fetchData();
+    console.log('First end');
+  }, [roomId]);
+
+  useEffect(() => {
+    console.log('THIRD');
+    console.log(roomData);
+    if (roomData) {
+      console.log('COMPLICATED');
+      console.log(messageInput);
+      projectFirestore
+        .collection(roomData.name)
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            console.log(doc.id, ' => ', doc.data());
+          });
+        });
     }
-    //console.log(roomMessages);
-    loadRoomData();
+  }, [roomRef]);
+  useEffect(() => {
+    console.log('SECOND');
   }, []);
 
   return (
     <>
-      {roomData && (
+      {roomData ? (
         <div className='chat'>
           <div className='chat__info'>
             <h3>{roomData.name}</h3>
@@ -132,6 +149,8 @@ const Chat = () => {
             </form>
           </div>
         </div>
+      ) : (
+        <h1>LOADING.......</h1>
       )}
     </>
   );
