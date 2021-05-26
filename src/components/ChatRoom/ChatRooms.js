@@ -8,7 +8,7 @@ import {Link} from 'react-router-dom';
 const ChatRooms = () => {
   const roomRef = projectFirestore.collection('chatrooms');
 
-  const [showingChat, setshowingChat] = useState(false);
+  const [showingChat, setshowingChat] = useState(true);
   const [chatRoom, setChatRoom] = useState([]);
   const [roomInput, setRoomInput] = useState('');
   const [existingRoom, setExistingRoom] = useState([]);

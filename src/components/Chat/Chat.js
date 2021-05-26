@@ -1,4 +1,4 @@
-import {Avatar, TextField} from '@material-ui/core';
+import {Avatar, CircularProgress, TextField} from '@material-ui/core';
 import './Chat.css';
 import React, {useState, useEffect} from 'react';
 import {useParams} from 'react-router-dom';
@@ -8,13 +8,15 @@ const Chat = () => {
   const roomRef = projectFirestore.collection('chatrooms');
   const {roomId} = useParams();
   const [roomData, setRoomData] = useState(null);
+  const [roomName, setRoomName] = useState('');
   const [messageInput, setMessageInput] = useState('');
-  const [roomMessages, setRoomMessages] = useState([]);
+  const [roomMessages, setRoomMessages] = useState(null);
+  const user = 'USER';
 
   const sendMessage = (e) => {
     e.preventDefault();
     projectFirestore.collection(roomData.name).add({
-      username: 'USER',
+      username: 'DEMO',
       message: messageInput,
       sentAt: timestamp(),
     });
@@ -23,38 +25,34 @@ const Chat = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      let note = await roomRef.doc(roomId).get();
-      console.log(note);
-      note = note.data();
-      if (note) {
-        console.log('INSIDE');
-      }
-      setRoomData(note);
+      let room = await roomRef.doc(roomId).get();
+      room = room.data();
+      setRoomData(room);
+      setRoomName(room.name);
     };
-    console.log('First');
     fetchData();
-    console.log('First end');
   }, [roomId]);
 
   useEffect(() => {
-    console.log('THIRD');
-    console.log(roomData);
-    if (roomData) {
-      console.log('COMPLICATED');
-      console.log(messageInput);
-      projectFirestore
-        .collection(roomData.name)
-        .get()
-        .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            console.log(doc.id, ' => ', doc.data());
+    const fetchMessage = async () => {
+      console.log(roomName);
+      if (roomName) {
+        projectFirestore
+          .collection(roomName)
+          .orderBy('sentAt', 'asc')
+          .get()
+          .then((querySnapshot) => {
+            let messages = [];
+            querySnapshot.forEach((doc) => {
+              messages.push(doc.data());
+            });
+            setRoomMessages(messages);
+            console.log('INSIDE', messages);
           });
-        });
-    }
-  }, [roomRef]);
-  useEffect(() => {
-    console.log('SECOND');
-  }, []);
+      }
+    };
+    fetchMessage();
+  }, [roomName, messageInput]);
 
   return (
     <>
@@ -62,82 +60,32 @@ const Chat = () => {
         <div className='chat'>
           <div className='chat__info'>
             <h3>{roomData.name}</h3>
-            <h3>{String(roomData.createdAt)}</h3>
+            <h6>Last Activity: </h6>
           </div>
-          <div className='chat__body'>
-            <div className='chat__messagesent'>
-              <Avatar>A</Avatar>
-              <div className='chat_user'>
-                <p>you</p>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Itaque rerum illum excepturi nam assumenda, tempora saepe.
-                  Molestias, deserunt iste. Perspiciatis, soluta. Laborum earum
-                  doloribus unde vel adipisci in hic dignissimos.
-                </p>
-              </div>
+          {roomMessages ? (
+            <div className='chat__body'>
+              {roomMessages.map((message) => (
+                <div
+                  className={
+                    message.username == user
+                      ? 'chat__messagesent'
+                      : 'chat__messagereceived'
+                  }
+                >
+                  <Avatar>{String(message.username)[0]}</Avatar>
+                  <div className='chat_user'>
+                    <p>{message.username}</p>
+                    <p>{message.message}</p>
+                  </div>
+                </div>
+              ))}
             </div>
-            <div className='chat__messagereceived'>
-              <Avatar>A</Avatar>
-              <div className='chat_user'>
-                <p>you</p>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Itaque rerum illum excepturi nam assumenda, tempora saepe.
-                  Molestias, deserunt iste. Perspiciatis, soluta. Laborum earum
-                  doloribus unde vel adipisci in hic dignissimos.
-                </p>
-              </div>
+          ) : (
+            <div className='loading'>
+              <h1>Loading Message</h1>
+              <CircularProgress />
             </div>
-            <div className='chat__messagesent'>
-              <Avatar>A</Avatar>
-              <div className='chat_user'>
-                <p>you</p>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Itaque rerum illum excepturi nam assumenda, tempora saepe.
-                  Molestias, deserunt iste. Perspiciatis, soluta. Laborum earum
-                  doloribus unde vel adipisci in hic dignissimos.
-                </p>
-              </div>
-            </div>
-            <div className='chat__messagereceived'>
-              <Avatar>A</Avatar>
-              <div className='chat_user'>
-                <p>you</p>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Itaque rerum illum excepturi nam assumenda, tempora saepe.
-                  Molestias, deserunt iste. Perspiciatis, soluta. Laborum earum
-                  doloribus unde vel adipisci in hic dignissimos.
-                </p>
-              </div>
-            </div>
-            <div className='chat__messagesent'>
-              <Avatar>A</Avatar>
-              <div className='chat_user'>
-                <p>you</p>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Itaque rerum illum excepturi nam assumenda, tempora saepe.
-                  Molestias, deserunt iste. Perspiciatis, soluta. Laborum earum
-                  doloribus unde vel adipisci in hic dignissimos.
-                </p>
-              </div>
-            </div>
-            <div className='chat__messagereceived'>
-              <Avatar>A</Avatar>
-              <div className='chat_user'>
-                <p>you</p>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Itaque rerum illum excepturi nam assumenda, tempora saepe.
-                  Molestias, deserunt iste. Perspiciatis, soluta. Laborum earum
-                  doloribus unde vel adipisci in hic dignissimos.
-                </p>
-              </div>
-            </div>
-          </div>
+          )}
           <div className='chat__messageInput'>
             <form onSubmit={sendMessage}>
               <TextField
@@ -150,7 +98,10 @@ const Chat = () => {
           </div>
         </div>
       ) : (
-        <h1>LOADING.......</h1>
+        <div className='loading'>
+          <h1>Loading Room</h1>
+          <CircularProgress />
+        </div>
       )}
     </>
   );
