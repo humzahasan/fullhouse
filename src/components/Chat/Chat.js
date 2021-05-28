@@ -42,12 +42,11 @@ const Chat = ({user}) => {
       setRoomName(room.name);
     };
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [roomId]);
+    
+  }, [roomId, roomRef]);
 
   useEffect(() => {
     const fetchMessage = async () => {
-      console.log(roomName);
       if (roomName) {
         projectFirestore
           .collection(roomName)
@@ -59,7 +58,6 @@ const Chat = ({user}) => {
               messages.push(doc.data());
             });
             setRoomMessages(messages);
-            console.log('INSIDE', messages);
           });
       }
     };
