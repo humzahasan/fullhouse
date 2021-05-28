@@ -5,6 +5,7 @@ import {BiMessageRoundedAdd} from 'react-icons/bi';
 import './ChatRooms.css';
 import {projectFirestore, timestamp} from '../../config/firebase';
 import {Link} from 'react-router-dom';
+import {motion} from 'framer-motion';
 const ChatRooms = () => {
   const roomRef = projectFirestore.collection('chatrooms');
 
@@ -12,7 +13,11 @@ const ChatRooms = () => {
   const [chatRoom, setChatRoom] = useState([]);
   const [roomInput, setRoomInput] = useState('');
   const [existingRoom, setExistingRoom] = useState([]);
-
+  
+  const variants = {
+    open: {opacity: 1, x: 0},
+    closed: {opacity: 0, x: '-100%'},
+  };
   const showChat = () => {
     setshowingChat(!showingChat);
   };
@@ -43,11 +48,21 @@ const ChatRooms = () => {
   }, []);
 
   return (
-    <div className='chatroom'>
+    <motion.div
+      initial={{opacity: 0}}
+      animate={{opacity: 1}}
+      transition={{duration: 2}}
+      className='chatroom'
+    >
       <span onClick={showChat}>
-        <RiMenuUnfoldFill fontSize='2rem' />
+        <RiMenuUnfoldFill fontSize='2rem' values={{color: 'white'}} />
       </span>
-      <div className={showingChat ? 'chatroom-show' : 'chatroom-hide'}>
+      <motion.div
+        initial={{opacity: 0}}
+        animate={{opacity: 1}}
+        transition={{duration: 3}}
+        className={showingChat ? 'chatroom-show' : 'chatroom-hide'}
+      >
         <form>
           <TextField
             id='standard-basic'
@@ -59,17 +74,27 @@ const ChatRooms = () => {
             <BiMessageRoundedAdd fontSize='1.5rem' />
           </button>
         </form>
-        <div className='chatroom_chatlist'>
+        <motion.div
+          initial={{opacity: 0}}
+          animate={{opacity: 1}}
+          transition={{duration: 2}}
+          className='chatroom_chatlist'
+        >
           {chatRoom?.map((room) => (
             <Link to={`/room/${room.id}`} key={room.id} onClick={showChat}>
-              <div className='chatlist__div' key={room.id}>
+              <motion.div
+                whileHover={{scale: 1.2}}
+                whileTap={{scale: 0.8}}
+                className='chatlist__div'
+                key={room.id}
+              >
                 <p className='chatlist__name'>#{room.name}</p>
-              </div>
+              </motion.div>
             </Link>
           ))}
-        </div>
-      </div>
-    </div>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 };
 

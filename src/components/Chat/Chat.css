@@ -14,16 +14,23 @@
 
 
 .chat__info {
-    padding: 0.25rem;
+    color: white;
+    display: flex;
+    flex-direction: column ;
+    padding: 0.5rem;
     margin: 0;
     height: 8vh;
 }
 
+h3,h6 {
+    margin: 0.25rem;
+}
+
 .chat__body {
+    scroll-behavior: smooth;
     height: 70vh;
     background-color: var(--primary);
     overflow-y: auto;
-
 }
 
 .chat__messageInput {
@@ -33,11 +40,13 @@
     background-color: var(--secondary);
 }
 
-form , .MuiFormControl-root{
+form,
+.MuiFormControl-root {
     width: 98%;
 }
 
-.MuiInputBase-input , label {
+.MuiInputBase-input,
+label {
     color: white !important;
 }
 
@@ -52,14 +61,21 @@ form , .MuiFormControl-root{
     margin-bottom: 0.5rem;
 }
 
-.chat__messagesent {
-    padding: 1rem 0.5rem 0 0;
+.chat__messagesent,
+.chat__messagereceived {
     display: flex;
-    background-color: lime;
+    max-width: 100%;
+    padding: 1rem 0.5rem 0 0;
+    background-color: var(--secondary);
+    color: white;
 }
 
+
 .chat__messagereceived {
-    padding: 1rem 0.5rem 0 0;
-    display: flex;
-    background-color: magenta;
+    background-color: var(--primary);
+}
+
+.chat__messagesent:hover ,
+.chat__messagereceived:hover {
+    background-color: gray;
 }

@@ -1,41 +1,43 @@
 :root {
-    --primary:#2F3136;
-    --secondary:#202225;
-  }
+    --primary: #2F3136;
+    --secondary: #202225;
+}
 
 
 .chatroom {
-  
     background-color: var(--secondary);
 }
 
-.chatroom-hide{
-  
+span{
+    color: white;
+}
+
+.chatroom-hide {
     display: none;
 }
 
 .chatroom-show {
-   
     padding: 0.5rem;
 }
 
-#standard-basic-label, #standard-basic {
+#standard-basic-label,
+#standard-basic {
     color: white;
     margin-top: 1rem;
 }
 
-form > button {
-   display: none;
+form>button {
+    display: none;
 }
 
 a {
     text-decoration: none;
 }
 
-.chatroom_chatlist{
+.chatroom_chatlist {
     height: 65vh;
     overflow-y: auto;
-    padding: 1rem; 
+    padding: 1rem;
 }
 
 .chatroom_chatlist :hover {
@@ -50,17 +52,20 @@ a {
 
 @media (max-width:421px) {
     .chatroom {
-        background-color: tomato;
-      
+        background-color: var(--secondary);
     }
+    
     .chatroom-show {
         width: 100vw;
     }
-
+    
     .chatroom_chatlist {
         width: 100vw;
         padding: 1.2rem;
-        background-color: #2F3136 !important;
+        background-color: var(--secondary);
     }
-           
+    .chatlist__name {
+
+        font-size: 1.25rem;
+    }
 }

@@ -1,7 +1,7 @@
 :root {
-    --primary:#2F3136;
-    --secondary:#202225;
-  }
+    --primary: #2F3136;
+    --secondary: #202225;
+}
 
 body {
     padding: 0;
@@ -13,28 +13,28 @@ body {
 }
 
 .app {
-    height: 100vh;
     display: flex;
     flex-direction: row;
-   
-} 
+}
 
 .banner {
-
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: var(--primary);
-    padding: 1rem;    
+    padding: 1rem;
     border-bottom: 1px lightgray solid;
 }
 
-.banner > a {
+.banner>a {
     text-align: center;
     font-size: x-large;
     color: white;
 }
 
 .loading {
-    display:flex;
-    flex-direction:column;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
