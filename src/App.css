@@ -42,8 +42,13 @@ body {
     align-items: center;
     justify-content: center;
     background-color: var(--primary);
-    padding: 1rem;
-    border-bottom: 1px lightgray solid;
+    padding: 0.5rem;
+    border: 1px dotted var(--primary);
+    border-radius: 1rem;
+    margin : 0.5rem;
+    box-shadow: 0 4px 8px 0 rgba(136, 132, 132, 0.2), 0 6px 20px 0 rgba(214, 206, 206, 0.19);
+
+
 }
 
 .banner>a {

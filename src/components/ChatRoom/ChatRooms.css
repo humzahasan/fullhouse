@@ -6,6 +6,10 @@
 
 .chatroom {
     background-color: var(--secondary);
+    border-radius: 1rem;
+    margin: 0.5rem;
+    box-shadow: 0 4px 8px 0 rgba(136, 132, 132, 0.2), 0 6px 20px 0 rgba(214, 206, 206, 0.19);
+    padding: 1rem;
 }
 
 span{
