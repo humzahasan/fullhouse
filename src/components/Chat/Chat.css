@@ -1,44 +1,52 @@
 :root {
-    --primary:#2F3136;
-    --secondary:#202225;
-  }
+    --primary: #2F3136;
+    --secondary: #202225;
+}
 
 .chat {
-    width: 100vw;
-    height:98vh;
+    width: 100%;
+    height: 90vh;
     display: flex;
     margin-top: 0;
     display: flex;
     flex-direction: column;
 }
 
-.chat__info {
-    border: 0.1px solid white;
-}
 
-.chat__info > h3 , .chat__info >p {
+.chat__info {
     padding: 0.25rem;
     margin: 0;
+    height: 8vh;
 }
 
 .chat__body {
-    height: 100vh;
-    background-color: lightsalmon;
-    overflow-x: auto;
-    overflow-y: scroll;
+    height: 70vh;
+    background-color: var(--primary);
+    overflow-y: auto;
+
 }
 
 .chat__messageInput {
+    width: 100%;
+    height: 9vh;
     display: flex;
-    background-color: lightseagreen;
-}
- 
-.chat_user {
-    display : flex;
-    flex-direction : column;
+    background-color: var(--secondary);
 }
 
-.chat_user > p {
+form , .MuiFormControl-root{
+    width: 98%;
+}
+
+.MuiInputBase-input , label {
+    color: white !important;
+}
+
+.chat_user {
+    display: flex;
+    flex-direction: column;
+}
+
+.chat_user>p {
     margin: 1rem;
     margin-top: 0;
     margin-bottom: 0.5rem;
@@ -54,8 +62,4 @@
     padding: 1rem 0.5rem 0 0;
     display: flex;
     background-color: magenta;
-}
-
-#chat-message {
-    width: 80vw !important;
 }

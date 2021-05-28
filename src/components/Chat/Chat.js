@@ -4,6 +4,7 @@ import React, {useState, useEffect} from 'react';
 import {useParams} from 'react-router-dom';
 import {projectFirestore, timestamp} from '../../config/firebase';
 
+
 const Chat = () => {
   const roomRef = projectFirestore.collection('chatrooms');
   const {roomId} = useParams();
@@ -31,6 +32,7 @@ const Chat = () => {
       setRoomName(room.name);
     };
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roomId]);
 
   useEffect(() => {
@@ -67,7 +69,7 @@ const Chat = () => {
               {roomMessages.map((message) => (
                 <div
                   className={
-                    message.username == user
+                    message.username === user
                       ? 'chat__messagesent'
                       : 'chat__messagereceived'
                   }
