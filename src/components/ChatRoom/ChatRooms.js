@@ -1,28 +1,36 @@
 import {TextField} from '@material-ui/core';
 import React, {useEffect, useState} from 'react';
 import {RiMenuUnfoldFill} from 'react-icons/ri';
-import {BiMessageRoundedAdd} from 'react-icons/bi';
+import {BiLogOut, BiMessageRoundedAdd} from 'react-icons/bi';
 import './ChatRooms.css';
-import {projectFirestore, timestamp} from '../../config/firebase';
+import {projectAuth, projectFirestore, timestamp} from '../../config/firebase';
 import {Link} from 'react-router-dom';
 import {motion} from 'framer-motion';
-const ChatRooms = () => {
-  const roomRef = projectFirestore.collection('chatrooms');
 
+const ChatRooms = ({user}) => {
+  const roomRef = projectFirestore.collection('chatrooms');
   const [showingChat, setshowingChat] = useState(true);
   const [chatRoom, setChatRoom] = useState([]);
   const [roomInput, setRoomInput] = useState('');
   const [existingRoom, setExistingRoom] = useState([]);
-
-  const showChat = () => { 
+  const showChat = () => {
     setshowingChat(!showingChat);
   };
 
+  const logout = () => {
+    projectAuth.signOut();
+  };
   const addRoom = (e) => {
     e.preventDefault();
     const roomExist = existingRoom.includes(roomInput);
     if (!roomExist) {
-      roomRef.add({name: roomInput, createdAt: timestamp(), createdBy: 'user'});
+      roomRef.add({
+        name: roomInput,
+        createdAt: timestamp(),
+        createdBy: user.displayName,
+        creatorPhoto: user.photoURL,
+        creatorId: user.uid,
+      });
     } else {
       alert('Room Already Exist');
     }
@@ -30,16 +38,20 @@ const ChatRooms = () => {
   };
 
   useEffect(() => {
-    roomRef.orderBy('createdAt', 'desc').onSnapshot((snap) => {
-      let documents = [];
-      let roomName = [];
-      snap.forEach((doc) => {
-        documents.push({...doc.data(), id: doc.id});
-        roomName.push(doc.data().name);
+    const fetchRoom = roomRef
+      .orderBy('createdAt', 'desc')
+      .onSnapshot((snap) => {
+        let documents = [];
+        let roomName = [];
+        snap.forEach((doc) => {
+          documents.push({...doc.data(), id: doc.id});
+          roomName.push(doc.data().name);
+        });
+        setChatRoom(documents);
+        setExistingRoom(roomName);
       });
-      setChatRoom(documents);
-      setExistingRoom(roomName);
-    });
+
+    return () => fetchRoom();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -52,6 +64,9 @@ const ChatRooms = () => {
     >
       <span onClick={showChat}>
         <RiMenuUnfoldFill fontSize='2rem' values={{color: 'white'}} />
+      </span>
+      <span onClick={logout}>
+        <BiLogOut fontSize='2rem' values={{color: 'white'}} />
       </span>
       <motion.div
         initial={{opacity: 0}}

@@ -63,3 +63,14 @@ body {
     align-items: center;
     justify-content: center;
 }
+
+.app-landing {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: baseline;
+  height: 89vh;
+  width: 100vw;
+  color: white;
+  background-color: var(--primary);
+}

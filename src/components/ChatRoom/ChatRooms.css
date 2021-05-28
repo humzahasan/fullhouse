@@ -5,6 +5,9 @@
 
 
 .chatroom {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     background-color: var(--secondary);
     border-radius: 1rem;
     margin: 0.5rem;
@@ -16,11 +19,11 @@ span{
     color: white;
 }
 
-.chatroom-hide {
+.chatroom-hide,.test {
     display: none;
 }
 
-.chatroom-show {
+.chatroom-show,.test {
     padding: 0.5rem;
 }
 
@@ -57,6 +60,9 @@ a {
 @media (max-width:421px) {
     .chatroom {
         background-color: var(--secondary);
+        display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     }
     
     .chatroom-show {

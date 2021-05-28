@@ -5,14 +5,13 @@ import {useParams} from 'react-router-dom';
 import {projectFirestore, timestamp} from '../../config/firebase';
 import {motion} from 'framer-motion';
 
-const Chat = () => {
+const Chat = ({user}) => {
   const roomRef = projectFirestore.collection('chatrooms');
   const {roomId} = useParams();
   const [roomData, setRoomData] = useState(null);
   const [roomName, setRoomName] = useState('');
   const [messageInput, setMessageInput] = useState('');
   const [roomMessages, setRoomMessages] = useState(null);
-  const user = 'USER';
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -26,7 +25,9 @@ const Chat = () => {
   const sendMessage = (e) => {
     e.preventDefault();
     projectFirestore.collection(roomData.name).add({
-      username: 'BRAVO',
+      username: user.displayName,
+      senderImage: user.photoURL,
+      senderId: user.uid,
       message: messageInput,
       sentAt: timestamp(),
     });
@@ -92,12 +93,14 @@ const Chat = () => {
                     whileTap={{scale: 1}}
                     transition={{duration: 1}}
                     className={
-                      message.username === user
+                      message.senderId === user.uid
                         ? 'chat__messagesent'
                         : 'chat__messagereceived'
                     }
                   >
-                    <Avatar>{String(message.username)[0]}</Avatar>
+                    <Avatar src={message.senderImage}>
+                      {String(message.username)[0]}
+                    </Avatar>
                     <div className='chat_user'>
                       <p>{message.username}</p>
                       <p>{message.message}</p>
