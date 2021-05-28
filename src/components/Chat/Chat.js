@@ -13,7 +13,6 @@ const Chat = () => {
   const [messageInput, setMessageInput] = useState('');
   const [roomMessages, setRoomMessages] = useState(null);
   const user = 'USER';
-
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -134,5 +133,4 @@ const Chat = () => {
     </>
   );
 };
-
 export default Chat;
