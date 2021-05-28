@@ -13,12 +13,8 @@ const ChatRooms = () => {
   const [chatRoom, setChatRoom] = useState([]);
   const [roomInput, setRoomInput] = useState('');
   const [existingRoom, setExistingRoom] = useState([]);
-  
-  const variants = {
-    open: {opacity: 1, x: 0},
-    closed: {opacity: 0, x: '-100%'},
-  };
-  const showChat = () => {
+
+  const showChat = () => { 
     setshowingChat(!showingChat);
   };
 
