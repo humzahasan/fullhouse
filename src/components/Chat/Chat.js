@@ -120,14 +120,14 @@ const Chat = () => {
             </div>
           ) : (
             <div className='loading'>
-              <h1>Loading Message</h1>
+              <h3>Fetching the room message</h3>
               <CircularProgress />
             </div>
           )}
         </div>
       ) : (
         <div className='loading'>
-          <h1>Loading Room</h1>
+          <h3>Initilizing the room</h3>
           <CircularProgress />
         </div>
       )}
