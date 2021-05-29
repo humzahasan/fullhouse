@@ -16,7 +16,6 @@ const Chat = ({user}) => {
   const [messageInput, setMessageInput] = useState('');
   const [roomMessages, setRoomMessages] = useState(null);
   const [participants, setParticipants] = useState([]);
-  const [openInfo, setopenInfo] = useState(false)
 
   const messagesEndRef = useRef(null);
 
@@ -61,28 +60,31 @@ const Chat = ({user}) => {
             let participant = [];
             snap.forEach((doc) => {
               messages.push({...doc.data(), id: doc.id});
-              participant.push({username : String(doc.data().username), senderImage: doc.data().senderImage});
+              participant.push({
+                username: String(doc.data().username),
+                senderImage: doc.data().senderImage,
+              });
             });
             participant = getUniqueListBy(participant, 'senderImage');
             setRoomMessages(messages);
             setParticipants(participant);
           });
       }
-      console.log(openInfo)
     };
     fetchMessage();
   }, [roomName, messageInput]);
+
   function getUniqueListBy(arr, key) {
-    return [...new Map(arr.map(item => [item[key], item])).values()]
-}
-//console.log(participants)
+    return [...new Map(arr.map((item) => [item[key], item])).values()];
+  }
+
   return (
     <>
       {roomData ? (
         <div className='chat'>
-          
-          {participants &&
-          <ChatInfo roomData={roomData} participants={participants} setopenInfo={setopenInfo}/>}
+          {participants && (
+            <ChatInfo roomData={roomData} participants={participants} />
+          )}
           {roomMessages ? (
             <div>
               <motion.div
@@ -93,7 +95,7 @@ const Chat = ({user}) => {
               >
                 {roomMessages.map((message) => (
                   <motion.div
-                  key={message.id}
+                    key={message.id}
                     whileHover={{scale: 0.98}}
                     whileTap={{scale: 1}}
                     transition={{duration: 1}}

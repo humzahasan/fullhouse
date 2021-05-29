@@ -4,9 +4,9 @@ import {motion} from 'framer-motion';
 import {Avatar} from '@material-ui/core';
 import moment from 'moment';
 
-const ChatInfo = ({roomData, participants}, setopenInfo) => {
+const ChatInfo = ({roomData, participants}) => {
   const [openInfo, setOpenInfo] = useState(false);
-  
+
   const showInfo = () => {
     setOpenInfo(!openInfo);
   };
@@ -31,18 +31,22 @@ const ChatInfo = ({roomData, participants}, setopenInfo) => {
         </div>
       </motion.div>
       {openInfo && (
-        <div className='chatinfo__modal'>
+        <motion.div
+          initial={{opacity: 0, y: '-100vh'}}
+          animate={{opacity: 1, y: 0}}
+          transition={{duration: 0.5}}
+          className='chatinfo__modal'
+        >
           <p>Room Owner : {roomData.createdBy}</p>
           <p>Created : {moment(roomData.createdAt.toDate()).fromNow()}</p>
           <hr />
-          {participants.map(key => (
-            <div className="chatinfo__participants" key={key.senderImage}>
+          {participants.map((key) => (
+            <div className='chatinfo__participants' key={key.senderImage}>
               <Avatar src={key.senderImage} />
               <p>{key.username}</p>
-
             </div>
-            ))}
-        </div>
+          ))}
+        </motion.div>
       )}
     </>
   );
