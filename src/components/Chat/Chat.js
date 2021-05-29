@@ -51,11 +51,10 @@ const Chat = ({user}) => {
         projectFirestore
           .collection(roomName)
           .orderBy('sentAt', 'asc')
-          .get()
-          .then((querySnapshot) => {
+          .onSnapshot((snap) => {
             let messages = [];
-            querySnapshot.forEach((doc) => {
-              messages.push(doc.data());
+            snap.forEach((doc) => {
+              messages.push({...doc.data(),id : doc.id});
             });
             setRoomMessages(messages);
           });
