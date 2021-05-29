@@ -30,6 +30,7 @@ const ChatRooms = ({user}) => {
         createdBy: user.displayName,
         creatorPhoto: user.photoURL,
         creatorId: user.uid,
+        participant : []
       });
     } else {
       alert('Room Already Exist');

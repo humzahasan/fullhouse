@@ -1,3 +1,4 @@
+import ChatInfo from './ChatInfo';
 import {Avatar, CircularProgress, TextField} from '@material-ui/core';
 import './Chat.css';
 import React, {useState, useEffect, useRef} from 'react';
@@ -7,11 +8,16 @@ import {motion} from 'framer-motion';
 
 const Chat = ({user}) => {
   const roomRef = projectFirestore.collection('chatrooms');
+
   const {roomId} = useParams();
+
   const [roomData, setRoomData] = useState(null);
   const [roomName, setRoomName] = useState('');
   const [messageInput, setMessageInput] = useState('');
   const [roomMessages, setRoomMessages] = useState(null);
+  const [participants, setParticipants] = useState([]);
+  const [openInfo, setopenInfo] = useState(false)
+
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -22,7 +28,7 @@ const Chat = ({user}) => {
     scrollToBottom();
   }, [roomMessages]);
 
-  const sendMessage = (e) => {
+  const sendMessage = async (e) => {
     e.preventDefault();
     projectFirestore.collection(roomData.name).add({
       username: user.displayName,
@@ -42,7 +48,6 @@ const Chat = ({user}) => {
       setRoomName(room.name);
     };
     fetchData();
-    
   }, [roomId, roomRef]);
 
   useEffect(() => {
@@ -53,29 +58,31 @@ const Chat = ({user}) => {
           .orderBy('sentAt', 'asc')
           .onSnapshot((snap) => {
             let messages = [];
+            let participant = [];
             snap.forEach((doc) => {
-              messages.push({...doc.data(),id : doc.id});
+              messages.push({...doc.data(), id: doc.id});
+              participant.push({username : String(doc.data().username), senderImage: doc.data().senderImage});
             });
+            participant = getUniqueListBy(participant, 'senderImage');
             setRoomMessages(messages);
+            setParticipants(participant);
           });
       }
+      console.log(openInfo)
     };
     fetchMessage();
   }, [roomName, messageInput]);
-
+  function getUniqueListBy(arr, key) {
+    return [...new Map(arr.map(item => [item[key], item])).values()]
+}
+//console.log(participants)
   return (
     <>
       {roomData ? (
         <div className='chat'>
-          <motion.div
-            initial={{opacity: 0}}
-            animate={{opacity: 1}}
-            transition={{duration: 2}}
-            className='chat__info'
-          >
-            <h3>{roomData.name}</h3>
-            <h6>Last Activity: </h6>
-          </motion.div>
+          
+          {participants &&
+          <ChatInfo roomData={roomData} participants={participants} setopenInfo={setopenInfo}/>}
           {roomMessages ? (
             <div>
               <motion.div
@@ -86,6 +93,7 @@ const Chat = ({user}) => {
               >
                 {roomMessages.map((message) => (
                   <motion.div
+                  key={message.id}
                     whileHover={{scale: 0.98}}
                     whileTap={{scale: 1}}
                     transition={{duration: 1}}
