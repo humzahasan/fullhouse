@@ -1,4 +1,4 @@
-import {TextField} from '@material-ui/core';
+import {TextField, Tooltip} from '@material-ui/core';
 import React, {useEffect, useState} from 'react';
 import {RiMenuUnfoldFill} from 'react-icons/ri';
 import {BiLogOut, BiMessageRoundedAdd} from 'react-icons/bi';
@@ -30,7 +30,7 @@ const ChatRooms = ({user}) => {
         createdBy: user.displayName,
         creatorPhoto: user.photoURL,
         creatorId: user.uid,
-        participant : []
+        participant: [],
       });
     } else {
       alert('Room Already Exist');
@@ -63,12 +63,18 @@ const ChatRooms = ({user}) => {
       transition={{duration: 2}}
       className='chatroom'
     >
-      <span onClick={showChat}>
-        <RiMenuUnfoldFill fontSize='2rem' values={{color: 'white'}} />
-      </span>
-      <span onClick={logout}>
-        <BiLogOut fontSize='2rem' values={{color: 'white'}} />
-      </span>
+      <Tooltip title={showingChat ? 'Hide Rooms' : 'Show Rooms'}>
+        <span onClick={showChat}>
+          <RiMenuUnfoldFill fontSize='2rem' values={{color: 'white'}} />
+        </span>
+      </Tooltip>
+
+      <Tooltip title='Logout'>
+        <span onClick={logout}>
+          <BiLogOut fontSize='2rem' values={{color: 'white'}} />
+        </span>
+      </Tooltip>
+
       <motion.div
         initial={{opacity: 0}}
         animate={{opacity: 1}}
@@ -93,7 +99,7 @@ const ChatRooms = ({user}) => {
           className='chatroom_chatlist'
         >
           {chatRoom?.map((room) => (
-            <Link to={`/room/${room.id}`} key={room.id} >
+            <Link to={`/room/${room.id}`} key={room.id}>
               <motion.div
                 whileHover={{scale: 1.2}}
                 whileTap={{scale: 0.8}}

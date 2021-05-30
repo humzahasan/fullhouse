@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {BsInfoCircle} from 'react-icons/bs';
 import {motion} from 'framer-motion';
-import {Avatar} from '@material-ui/core';
+import {Avatar, Tooltip} from '@material-ui/core';
 import moment from 'moment';
 
 const ChatInfo = ({roomData, participants}) => {
@@ -25,9 +25,11 @@ const ChatInfo = ({roomData, participants}) => {
         </div>
 
         <div className='chatinfo__right'>
-          <span onClick={showInfo}>
-            <BsInfoCircle fontSize='1.5rem' values={{color: 'white'}} />
-          </span>
+          <Tooltip title='Show Room Info'>
+            <span onClick={showInfo}>
+              <BsInfoCircle fontSize='1.5rem' values={{color: 'white'}} />
+            </span>
+          </Tooltip>
         </div>
       </motion.div>
       {openInfo && (
