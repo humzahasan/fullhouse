@@ -93,7 +93,7 @@ const ChatRooms = ({user}) => {
           className='chatroom_chatlist'
         >
           {chatRoom?.map((room) => (
-            <Link to={`/room/${room.id}`} key={room.id} onClick={showChat}>
+            <Link to={`/room/${room.id}`} key={room.id} >
               <motion.div
                 whileHover={{scale: 1.2}}
                 whileTap={{scale: 0.8}}

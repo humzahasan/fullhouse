@@ -37,9 +37,11 @@ const ChatInfo = ({roomData, participants}) => {
           transition={{duration: 0.5}}
           className='chatinfo__modal'
         >
+          <h4>Room Details</h4>
           <p>Room Owner : {roomData.createdBy}</p>
           <p>Created : {moment(roomData.createdAt.toDate()).fromNow()}</p>
           <hr />
+          <h3 style={{textAlign: 'center'}}>Participants</h3>
           {participants.map((key) => (
             <div className='chatinfo__participants' key={key.senderImage}>
               <Avatar src={key.senderImage} />
